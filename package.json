@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "qr": "node show-qr.js",
-    "postinstall": "echo 'Skipping Chrome installation - using system Chrome on Render'"
+    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome installation failed, will retry on startup'"
   },
   "keywords": [
     "whatsapp",

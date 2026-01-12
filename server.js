@@ -72,9 +72,18 @@ if (process.env.RENDER) {
             // Continue searching
         }
     }
-    // If no Chrome found, let Puppeteer use its bundled Chrome
+    // If no system Chrome found, try to use Puppeteer's cache directory
     if (!puppeteerOptions.executablePath) {
         console.log('No system Chrome found, using Puppeteer bundled Chrome');
+        // Ensure cache directory exists
+        const cacheDir = process.env.PUPPETEER_CACHE_DIR || '/opt/render/.cache/puppeteer';
+        try {
+            if (!fsSync.existsSync(cacheDir)) {
+                fsSync.mkdirSync(cacheDir, { recursive: true });
+            }
+        } catch (e) {
+            console.log('Could not create cache directory:', e.message);
+        }
     }
 }
 
