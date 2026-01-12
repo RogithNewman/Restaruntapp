@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Restaurant ordering and billing system">
+    <title>Shop - Order & Billing</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://api.qrserver.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+</head>
+<body>
+    <!-- Screen 1: Items/Menu Display -->
+    <div class="screen active" id="screen-1">
+        <div class="header">
+            <div class="header-main">
+                <button class="back-btn" onclick="App.navigateToScreen(1)">←</button>
+                <h1 class="title">Items - <span class="restaurant-name">Restaurant</span></h1>
+                <button class="admin-btn" onclick="App.navigateToScreen(4)" title="Admin Panel">⚙️</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="category-filters-container">
+                <div class="category-filters" id="category-filters">
+                    <!-- Category buttons will be rendered here -->
+                </div>
+            </div>
+
+            <div class="menu-grid" id="menu-items">
+                <!-- Menu items will be rendered here -->
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <div class="footer-left">
+                <span id="cart-count">0 Item</span> | <span id="cart-total">₹0.00</span>
+            </div>
+            <button class="footer-btn" onclick="App.navigateToScreen(2)">View order →</button>
+        </div>
+    </div>
+
+    <!-- Screen 2: Verify Order -->
+    <div class="screen" id="screen-2">
+        <div class="header">
+            <div class="header-main">
+                <button class="back-btn" onclick="App.navigateToScreen(1)">←</button>
+                <h1 class="title">Verify Order</h1>
+                <button class="menu-btn">⋯</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="verify-list" id="verify-items">
+                <!-- Cart items will be rendered here -->
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <div class="footer-left">
+                <span id="cart-count-verify">0 Item</span> | <span id="cart-total-verify">₹0.00</span>
+            </div>
+            <button class="footer-btn" onclick="App.confirmOrder()">Confirm →</button>
+        </div>
+    </div>
+
+    <!-- Screen 3: Billing Details -->
+    <div class="screen" id="screen-3">
+        <div class="header">
+            <div class="header-main">
+                <button class="back-btn" onclick="App.navigateToScreen(1)">←</button>
+                <h1 class="title">Billing Details</h1>
+                <button class="receipt-btn">🧾</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="bill-summary">
+                <div class="receipt-icon">🧾</div>
+                <div class="bill-total" id="bill-total">₹0.00</div>
+                <div class="bill-date" id="bill-date">Printed on Aug 18, 2021 | 04:20 pm</div>
+            </div>
+
+            <div class="success-message">
+                <span class="checkmark">✓</span>
+                <p>Your bill is printed successfully. Please collect it on assigned printer.</p>
+            </div>
+
+            <div class="payment-section">
+                <h3>Collect payment</h3>
+                <div class="payment-options">
+                    <button class="payment-option" onclick="App.selectPaymentMethod('Card')">
+                        <div class="payment-icon">💳</div>
+                        <span>Card</span>
+                    </button>
+                    <button class="payment-option" onclick="App.selectPaymentMethod('Cash')">
+                        <div class="payment-icon">💰</div>
+                        <span>Cash</span>
+                    </button>
+                    <button class="payment-option" onclick="App.selectPaymentMethod('Other')">
+                        <div class="payment-icon">⋯</div>
+                        <span>Other</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="qr-section">
+                <h3>Pay Now</h3>
+                <div id="qr-code"></div>
+            </div>
+
+            <div class="billing-actions">
+                <button class="action-btn print-btn" onclick="App.printBill()">Print Bill</button>
+                <button class="action-btn clear-btn" onclick="App.clearCart()">Clear Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 4: Admin Panel -->
+    <div class="screen" id="screen-4">
+        <div class="header">
+            <div class="header-main">
+                <button class="back-btn" onclick="App.navigateToScreen(1)">←</button>
+                <h1 class="title">Admin Panel</h1>
+                <button class="sidebar-toggle" onclick="Admin.toggleSidebar()" title="Toggle Sidebar">☰</button>
+            </div>
+        </div>
+
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div class="admin-sidebar" id="admin-sidebar">
+                <div class="sidebar-content">
+                    <button class="sidebar-item active" onclick="Admin.showView('reports')" data-view="reports">
+                        <span class="sidebar-icon">📊</span>
+                        <span class="sidebar-text">Monthly Sales Reports</span>
+                    </button>
+                    <button class="sidebar-item" onclick="Admin.showView('menu-items')" data-view="menu-items">
+                        <span class="sidebar-icon">📋</span>
+                        <span class="sidebar-text">Menu Items</span>
+                    </button>
+                    <button class="sidebar-item" onclick="Admin.showView('manage-menu')" data-view="manage-menu">
+                        <span class="sidebar-icon">➕</span>
+                        <span class="sidebar-text">Manage Menu</span>
+                    </button>
+                    <button class="sidebar-item" onclick="Admin.showView('settings')" data-view="settings">
+                        <span class="sidebar-icon">⚙️</span>
+                        <span class="sidebar-text">Settings</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="admin-main-content">
+                <!-- Sales Reports View (Default) -->
+                <div class="admin-view active" id="view-reports">
+                    <section class="admin-section">
+                        <h2>Sales Reports</h2>
+                        
+                        <!-- Report Type Tabs -->
+                        <div class="report-type-tabs">
+                            <button class="report-tab active" data-type="monthly" onclick="Admin.switchReportType('monthly')">Monthly Reports</button>
+                            <button class="report-tab" data-type="daily" onclick="Admin.switchReportType('daily')">Daily Reports</button>
+                        </div>
+
+                        <!-- Monthly Report Controls -->
+                        <div id="monthly-report-controls" class="report-controls">
+                            <label for="report-month">Select Month:</label>
+                            <input type="month" id="report-month" onchange="Admin.generateMonthlyReport()">
+                            <button class="btn btn-secondary" onclick="Admin.exportMonthlyReport()">Export Report</button>
+                        </div>
+
+                        <!-- Daily Report Controls -->
+                        <div id="daily-report-controls" class="report-controls" style="display: none;">
+                            <label for="report-date">Select Date:</label>
+                            <input type="date" id="report-date" onchange="Admin.generateDailyReport()">
+                            <button class="btn btn-secondary" onclick="Admin.exportDailyReport()">Export Report</button>
+                        </div>
+
+                        <div id="sales-report" class="sales-report">
+                            <!-- Sales report will be displayed here -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Menu Items View -->
+                <div class="admin-view" id="view-menu-items">
+                    <section class="admin-section">
+                        <h2>Menu Items</h2>
+                        <div id="menu-items-container">
+                            <!-- Menu items will be rendered here -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Manage Menu View -->
+                <div class="admin-view" id="view-manage-menu">
+                    <section class="admin-section">
+                        <h2>Manage Menu</h2>
+                        
+                        <div class="menu-form-container">
+                            <form id="menu-form" class="menu-form">
+                                <input type="hidden" id="edit-item-id" value="">
+                                
+                                <div class="form-group">
+                                    <label for="item-name">Item Name</label>
+                                    <input type="text" id="item-name" required placeholder="e.g., Idly">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="item-price">Price (₹)</label>
+                                    <input type="number" id="item-price" step="0.01" min="0" required placeholder="e.g., 5.00">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="item-category">Category</label>
+                                    <select id="item-category" required class="category-select">
+                                        <option value="">Select Category</option>
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="Beverages">Beverages</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="item-image-upload">Item Image</label>
+                                    <input type="file" id="item-image-upload" accept="image/*" onchange="Admin.handleImageUpload(event)">
+                                    <div id="image-preview" style="margin-top: 10px; display: none;">
+                                        <img id="preview-img" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #ddd;">
+                                        <button type="button" class="btn btn-danger" onclick="Admin.removeImagePreview()" style="margin-top: 10px;">Remove Image</button>
+                                    </div>
+                                    <input type="hidden" id="item-image" value="">
+                                    <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                                        Upload image from your device
+                                    </small>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary" id="submit-btn">Add Item</button>
+                                    <button type="button" class="btn btn-secondary" id="cancel-btn" style="display: none;" onclick="Admin.cancelEdit()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Settings View -->
+                <div class="admin-view" id="view-settings">
+                    <section class="admin-section">
+                        <h2>Shop Settings</h2>
+                        
+                        <div class="form-group">
+                            <label for="restaurant-name-input">Shop/Restaurant Name</label>
+                            <input type="text" id="restaurant-name-input" value="" placeholder="Enter shop name">
+                            <button class="btn btn-primary" onclick="Admin.updateRestaurantName()" style="margin-top: 10px;">Update Name</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js" defer></script>
+    <script src="js/menu.js" defer></script>
+    <script src="js/admin.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <link rel="dns-prefetch" href="https://api.qrserver.com">
+</body>
+</html>
