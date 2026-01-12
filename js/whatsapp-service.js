@@ -2,7 +2,18 @@
 // This file handles sending sales data to the backend service
 
 const WhatsAppService = {
-    apiUrl: 'http://localhost:3000/api', // Change this to your server URL
+    // Auto-detect API URL based on environment
+    // For local development: http://localhost:3000/api
+    // For production: Use your cloud server URL (e.g., https://your-app.onrender.com/api)
+    get apiUrl() {
+        // Check if we're on localhost (development)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:3000/api';
+        }
+        // For production, use environment variable or default to your cloud URL
+        // Replace 'your-app-name' with your actual Render/Railway app name
+        return window.WHATSAPP_API_URL || 'https://your-app-name.onrender.com/api';
+    },
     
     // Send sales data to backend
     async syncSalesData() {
@@ -10,7 +21,8 @@ const WhatsAppService = {
             const salesHistory = Storage.getSalesHistory();
             const restaurantName = Storage.getRestaurantName();
             
-            const response = await fetch(`${this.apiUrl}/sales-data`, {
+            const apiUrl = this.apiUrl; // Get API URL once
+            const response = await fetch(`${apiUrl}/sales-data`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +54,8 @@ const WhatsAppService = {
             // First sync the data
             await this.syncSalesData();
             
-            const response = await fetch(`${this.apiUrl}/send-report`, {
+            const apiUrl = this.apiUrl; // Get API URL once
+            const response = await fetch(`${apiUrl}/send-report`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +80,8 @@ const WhatsAppService = {
     // Check if service is available
     async checkService() {
         try {
-            const response = await fetch(`${this.apiUrl.replace('/api', '')}/health`);
+            const apiUrl = this.apiUrl; // Get API URL once
+            const response = await fetch(`${apiUrl.replace('/api', '')}/health`);
             const result = await response.json();
             return result.status === 'ok';
         } catch (error) {

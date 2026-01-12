@@ -48,9 +48,22 @@ cd Restaurant-site
 
 3. No build process or dependencies required - it's a pure HTML/CSS/JS application!
 
-### WhatsApp Reports Setup (Optional)
+### WhatsApp Reports Setup
 
-To enable automatic daily WhatsApp reports:
+**Option 1: Cloud Hosting (Recommended for GitHub Pages)**
+
+For 24/7 operation without keeping your computer on:
+
+1. Deploy backend to [Render.com](https://render.com) (free tier available)
+2. Get your service URL (e.g., `https://your-app.onrender.com`)
+3. Update `js/whatsapp-service.js` with your cloud URL
+4. Connect WhatsApp via QR code in Render logs
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete cloud deployment guide.
+
+**Option 2: Local Development**
+
+For testing on your computer:
 
 1. Install Node.js (v14 or higher)
 2. Install dependencies:
@@ -64,7 +77,9 @@ npm start
 4. Scan QR code with WhatsApp to connect
 5. Reports will be sent automatically at 11:00 PM daily
 
-See [WHATSAPP_SETUP.md](WHATSAPP_SETUP.md) for detailed instructions.
+See [WHATSAPP_SETUP.md](WHATSAPP_SETUP.md) for detailed local setup instructions.
+
+**Note**: GitHub Pages only hosts static files. For production, use cloud hosting (Render/Railway) to keep the WhatsApp service running 24/7.
 
 ## Usage
 
@@ -128,6 +143,7 @@ Restaurant-site/
 - **Real-time Data Sync**: Sales data automatically synced to server
 - **Rich Report Format**: Includes total sales, orders, popular items, and order details
 - **Easy Setup**: Simple QR code scanning to connect WhatsApp
+- **Cloud Ready**: Works with GitHub Pages + cloud backend (Render/Railway)
 
 ## Browser Support
 

@@ -1,25 +1,6 @@
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Logs
-*.log
-npm-debug.log*
-
-# Temporary files
-*.tmp
-*.temp
-
-# Node modules (if you add any in future)
+# Dependencies
 node_modules/
+package-lock.json
 
 # WhatsApp session data
 .wwebjs_auth/
@@ -28,3 +9,15 @@ node_modules/
 # Environment variables
 .env
 .env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

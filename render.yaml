@@ -1,0 +1,16 @@
+# Render.com Deployment Configuration
+# This file configures the WhatsApp service to run on Render.com
+
+services:
+  - type: web
+    name: restaurant-whatsapp-service
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
