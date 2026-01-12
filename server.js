@@ -11,6 +11,7 @@ const path = require('path');
 // Set Puppeteer cache directory for Render.com
 if (process.env.RENDER) {
     process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
+    process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'false';
 }
 
 const app = express();
