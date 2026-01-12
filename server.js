@@ -35,24 +35,52 @@ let salesData = [];
 let currentQRCode = null;
 
 // Initialize WhatsApp Client
+// Try to use system Chrome first (Render.com has Chrome pre-installed)
+let puppeteerOptions = {
+    headless: true,
+    args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process',
+        '--disable-gpu',
+        '--disable-software-rasterizer'
+    ]
+};
+
+// Try common Chrome paths on Render/Linux systems
+const chromePaths = [
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+    '/snap/bin/chromium'
+];
+
+// Find available Chrome
+if (process.env.RENDER) {
+    for (const chromePath of chromePaths) {
+        try {
+            if (fsSync.existsSync(chromePath)) {
+                puppeteerOptions.executablePath = chromePath;
+                console.log(`Using system Chrome at: ${chromePath}`);
+                break;
+            }
+        } catch (e) {
+            // Continue searching
+        }
+    }
+    // If no Chrome found, let Puppeteer use its bundled Chrome
+    if (!puppeteerOptions.executablePath) {
+        console.log('No system Chrome found, using Puppeteer bundled Chrome');
+    }
+}
+
 const client = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: {
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu',
-            '--disable-software-rasterizer'
-        ],
-        // Use system Chrome if available, otherwise use bundled Chrome
-        executablePath: process.env.CHROME_BIN || undefined
-    }
+    puppeteer: puppeteerOptions
 });
 
 // QR Code generation

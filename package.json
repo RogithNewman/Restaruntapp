@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "qr": "node show-qr.js",
-    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome installation skipped - will use system Chrome'"
+    "postinstall": "echo 'Skipping Chrome installation - using system Chrome on Render'"
   },
   "keywords": [
     "whatsapp",
@@ -19,7 +19,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "node-cron": "^3.0.3",
-    "puppeteer": "^21.11.0",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.23.0"
