@@ -12,7 +12,7 @@ const WhatsAppService = {
         }
         // For production, use environment variable or default to your cloud URL
         // Replace 'your-app-name' with your actual Render/Railway app name
-        return window.WHATSAPP_API_URL || 'https://your-app-name.onrender.com/api';
+        return window.WHATSAPP_API_URL || 'https://ambotrestarunt-com.onrender.com/api';
     },
     
     // Send sales data to backend
