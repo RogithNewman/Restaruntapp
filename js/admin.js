@@ -306,6 +306,88 @@ const Admin = {
         App.updateRestaurantNameDisplay();
         alert('Shop name updated successfully!');
     },
+
+    // Send WhatsApp report manually
+    async sendWhatsAppReport() {
+        const btn = document.getElementById('send-report-btn');
+        const statusDiv = document.getElementById('whatsapp-status');
+        
+        if (!btn || !statusDiv) return;
+        
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        statusDiv.style.display = 'block';
+        statusDiv.style.background = '#fff3cd';
+        statusDiv.style.color = '#856404';
+        statusDiv.textContent = 'Sending report to WhatsApp...';
+        
+        try {
+            if (typeof WhatsAppService === 'undefined') {
+                throw new Error('WhatsApp service not loaded');
+            }
+            
+            const success = await WhatsAppService.sendDailyReport();
+            
+            if (success) {
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#155724';
+                statusDiv.textContent = '✅ Report sent successfully!';
+            } else {
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+                statusDiv.textContent = '❌ Failed to send report. Check server connection.';
+            }
+        } catch (error) {
+            console.error('Error sending report:', error);
+            statusDiv.style.background = '#f8d7da';
+            statusDiv.style.color = '#721c24';
+            statusDiv.textContent = '❌ Error: ' + error.message;
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '📱 Send Daily Report Now';
+        }
+    },
+
+    // Sync sales data to WhatsApp service
+    async syncWhatsAppData() {
+        const btn = document.getElementById('sync-data-btn');
+        const statusDiv = document.getElementById('whatsapp-status');
+        
+        if (!btn || !statusDiv) return;
+        
+        btn.disabled = true;
+        btn.textContent = 'Syncing...';
+        statusDiv.style.display = 'block';
+        statusDiv.style.background = '#fff3cd';
+        statusDiv.style.color = '#856404';
+        statusDiv.textContent = 'Syncing sales data...';
+        
+        try {
+            if (typeof WhatsAppService === 'undefined') {
+                throw new Error('WhatsApp service not loaded');
+            }
+            
+            const success = await WhatsAppService.syncSalesData();
+            
+            if (success) {
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#155724';
+                statusDiv.textContent = '✅ Sales data synced successfully!';
+            } else {
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+                statusDiv.textContent = '❌ Failed to sync. Make sure the server is running.';
+            }
+        } catch (error) {
+            console.error('Error syncing data:', error);
+            statusDiv.style.background = '#f8d7da';
+            statusDiv.style.color = '#721c24';
+            statusDiv.textContent = '❌ Error: ' + error.message;
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '🔄 Sync Sales Data';
+        }
+    },
     
     // Update category dropdown with existing categories
     updateCategoryDropdown() {

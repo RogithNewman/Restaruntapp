@@ -1,6 +1,6 @@
-# Restaurant Ordering & Billing System
+# Restaurant Ordering & Billing System with WhatsApp Integration
 
-A modern, responsive restaurant ordering and billing system built with HTML, CSS, and JavaScript.
+A modern, responsive restaurant ordering and billing system with **automatic WhatsApp daily reports**. Built with HTML, CSS, JavaScript, and Node.js for WhatsApp integration.
 
 ## Features
 
@@ -13,17 +13,30 @@ A modern, responsive restaurant ordering and billing system built with HTML, CSS
   - Monthly and Daily sales reports
   - Export reports to CSV
   - Shop settings management
+- **WhatsApp Integration**: 
+  - Automatic daily sales reports sent to WhatsApp at 11:00 PM
+  - Manual report sending
+  - Real-time sales data synchronization
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Local Storage**: All data stored in browser localStorage
 
 ## Tech Stack
 
+**Frontend:**
 - HTML5
 - CSS3 (Responsive Design)
 - Vanilla JavaScript
 - localStorage for data persistence
 
+**Backend (WhatsApp Integration):**
+- Node.js
+- Express.js
+- WhatsApp Web.js
+- Node-cron (Scheduled tasks)
+
 ## Getting Started
+
+### Basic Setup (Frontend Only)
 
 1. Clone the repository:
 ```bash
@@ -34,6 +47,24 @@ cd Restaurant-site
 2. Open `index.html` in your web browser
 
 3. No build process or dependencies required - it's a pure HTML/CSS/JS application!
+
+### WhatsApp Reports Setup (Optional)
+
+To enable automatic daily WhatsApp reports:
+
+1. Install Node.js (v14 or higher)
+2. Install dependencies:
+```bash
+npm install
+```
+3. Start the server:
+```bash
+npm start
+```
+4. Scan QR code with WhatsApp to connect
+5. Reports will be sent automatically at 11:00 PM daily
+
+See [WHATSAPP_SETUP.md](WHATSAPP_SETUP.md) for detailed instructions.
 
 ## Usage
 
@@ -55,15 +86,19 @@ cd Restaurant-site
 
 ```
 Restaurant-site/
-├── index.html          # Main application file
+├── index.html              # Main application file
 ├── css/
-│   └── style.css       # All styles (responsive)
+│   └── style.css           # All styles (responsive)
 ├── js/
-│   ├── storage.js      # localStorage utilities
-│   ├── menu.js         # Menu display and filtering
-│   ├── app.js          # Main app logic (cart, billing)
-│   └── admin.js        # Admin panel (CRUD, reports)
-└── images/             # Menu item images
+│   ├── storage.js          # localStorage utilities
+│   ├── menu.js             # Menu display and filtering
+│   ├── app.js              # Main app logic (cart, billing)
+│   ├── admin.js            # Admin panel (CRUD, reports)
+│   └── whatsapp-service.js # WhatsApp integration (frontend)
+├── server.js               # WhatsApp service backend
+├── package.json            # Node.js dependencies
+├── WHATSAPP_SETUP.md       # WhatsApp setup guide
+└── images/                 # Menu item images
 ```
 
 ## Features in Detail
@@ -86,6 +121,13 @@ Restaurant-site/
 - Popular items analysis
 - Order details with pagination (25 items per page)
 - CSV export functionality
+
+### WhatsApp Integration ⭐ NEW
+- **Automatic Daily Reports**: Sent automatically at 11:00 PM IST
+- **Manual Report Sending**: Send reports anytime from admin panel
+- **Real-time Data Sync**: Sales data automatically synced to server
+- **Rich Report Format**: Includes total sales, orders, popular items, and order details
+- **Easy Setup**: Simple QR code scanning to connect WhatsApp
 
 ## Browser Support
 

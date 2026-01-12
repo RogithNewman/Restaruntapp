@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="dns-prefetch" href="https://api.qrserver.com">
     <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://api.qrserver.com">
+
 </head>
 <body>
     <!-- Screen 1: Items/Menu Display -->
@@ -257,6 +260,28 @@
                             <button class="btn btn-primary" onclick="Admin.updateRestaurantName()" style="margin-top: 10px;">Update Name</button>
                         </div>
                     </section>
+
+                    <section class="admin-section" style="margin-top: 30px; display: block !important; visibility: visible !important;">
+                        <h2 style="color: #25D366; border-bottom: 2px solid #25D366; padding-bottom: 10px;">📱 WhatsApp Reports</h2>
+                        <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+                            Daily reports are automatically sent to your WhatsApp at 11:00 PM.
+                        </p>
+                        
+                        <div class="form-group">
+                            <label style="font-weight: 600; color: #333; display: block; margin-bottom: 10px;">
+                                WhatsApp Number: <strong style="color: #25D366;">+91 6379225692</strong>
+                            </label>
+                            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn btn-primary" onclick="Admin.sendWhatsAppReport()" id="send-report-btn" style="background: #25D366; border: none; padding: 12px 20px; font-size: 14px; font-weight: 600;">
+                                    📱 Send Daily Report Now
+                                </button>
+                                <button class="btn btn-secondary" onclick="Admin.syncWhatsAppData()" id="sync-data-btn" style="padding: 12px 20px; font-size: 14px; font-weight: 600;">
+                                    🔄 Sync Sales Data
+                                </button>
+                            </div>
+                            <div id="whatsapp-status" style="margin-top: 10px; padding: 10px; border-radius: 5px; display: none;"></div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -264,6 +289,7 @@
 
     <script src="js/storage.js" defer></script>
     <script src="js/menu.js" defer></script>
+    <script src="js/whatsapp-service.js" defer></script>
     <script src="js/admin.js" defer></script>
     <script src="js/app.js" defer></script>
     <link rel="dns-prefetch" href="https://api.qrserver.com">

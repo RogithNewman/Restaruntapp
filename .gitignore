@@ -21,6 +21,10 @@ npm-debug.log*
 # Node modules (if you add any in future)
 node_modules/
 
+# WhatsApp session data
+.wwebjs_auth/
+.wwebjs_cache/
+
 # Environment variables
 .env
 .env.local
