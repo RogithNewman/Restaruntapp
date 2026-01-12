@@ -47,8 +47,11 @@ const client = new Client({
             '--no-first-run',
             '--no-zygote',
             '--single-process',
-            '--disable-gpu'
-        ]
+            '--disable-gpu',
+            '--disable-software-rasterizer'
+        ],
+        // Use system Chrome if available, otherwise use bundled Chrome
+        executablePath: process.env.CHROME_BIN || undefined
     }
 });
 
