@@ -8,6 +8,11 @@ const cron = require('node-cron');
 const fs = require('fs').promises;
 const path = require('path');
 
+// Set Puppeteer cache directory for Render.com
+if (process.env.RENDER) {
+    process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
+}
+
 const app = express();
 app.use(express.json());
 
